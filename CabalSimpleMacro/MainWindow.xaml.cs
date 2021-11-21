@@ -21,7 +21,7 @@ namespace CabalSimpleMacro
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		private CancellationTokenSource cts = new CancellationTokenSource();
+		private CancellationTokenSource cts;
 
 		private bool _isMacroRunning;
 
@@ -39,6 +39,8 @@ namespace CabalSimpleMacro
 				_isMacroRunning = false;
 				LogTextBlock.Dispatcher.Invoke(() => LogAdd("Macro successfully stopped"));
 				StartButton.Content = "Start";
+
+				cts.Dispose();
 			}
 			else
 			{
@@ -49,6 +51,7 @@ namespace CabalSimpleMacro
 					return;
 				}
 
+				cts = new CancellationTokenSource();
 				RunMacro(keyList);
 				_isMacroRunning = true;
 
